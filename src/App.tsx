@@ -11,7 +11,7 @@ export const App = () => {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const [isEmptyUser, setIsEmptyUser] = useState(false);
 
-  const handleSubmit: FormEventHandler = (event) => {
+  const handleSubmit: FormEventHandler = event => {
     event.preventDefault();
 
     const isTitleValid = title.trim() !== '';
