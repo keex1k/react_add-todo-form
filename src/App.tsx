@@ -11,31 +11,29 @@ export const App = () => {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const [isEmptyUser, setIsEmptyUser] = useState(false);
 
-  const handleSubmit: FormEventHandler = event => {
+  const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
     const isTitleValid = title.trim() !== '';
     const isUserValid = user !== '0';
 
+    // Najpierw ustawiamy błędy
     setIsEmptyTitle(!isTitleValid);
     setIsEmptyUser(!isUserValid);
 
-    if (!isTitleValid || !isUserValid) {
-      return; // przerywa funkcję, jeśli coś jest nieprawidłowe
+    // Dopiero potem sprawdzamy, czy można dodać todo
+    if (isTitleValid && isUserValid) {
+      const newTodo = {
+        id: Math.max(...todos.map(t => t.id), 0) + 1,
+        title,
+        completed: false,
+        userId: +user,
+      };
+
+      setTodos(prev => [...prev, newTodo]);
+      setTitle('');
+      setUser('0');
     }
-
-    const newTodo = {
-      id: Math.max(...todos.map(t => t.id)) + 1,
-      title,
-      completed: false,
-      userId: +user,
-    };
-
-    setTodos(prevTodos => [...prevTodos, newTodo]);
-    setTitle('');
-    setUser('0');
-    setIsEmptyUser(false);
-    setIsEmptyTitle(false);
   };
 
   return (
