@@ -14,29 +14,28 @@ export const App = () => {
   const handleSubmit: FormEventHandler = event => {
     event.preventDefault();
 
-    if (title === '') {
-      setIsEmptyTitle(true);
-      setIsEmptyUser(false);
-      if (user === '0') {
-        setIsEmptyUser(true);
-      }
-    } else if (user === '0') {
-      setIsEmptyUser(true);
-      setIsEmptyTitle(false);
-    } else {
-      const newTodo = {
-        id: Math.max(...todos.map(t => t.id)) + 1,
-        title,
-        completed: false,
-        userId: +user,
-      };
+    const isTitleValid = title.trim() !== '';
+    const isUserValid = user !== '0';
 
-      setTodos(prevTodos => [...prevTodos, newTodo]);
-      setTitle('');
-      setUser('0');
-      setIsEmptyUser(false);
-      setIsEmptyTitle(false);
+    setIsEmptyTitle(!isTitleValid);
+    setIsEmptyUser(!isUserValid);
+
+    if (!isTitleValid || !isUserValid) {
+      return; // przerywa funkcję, jeśli coś jest nieprawidłowe
     }
+
+    const newTodo = {
+      id: Math.max(...todos.map(t => t.id)) + 1,
+      title,
+      completed: false,
+      userId: +user,
+    };
+
+    setTodos(prevTodos => [...prevTodos, newTodo]);
+    setTitle('');
+    setUser('0');
+    setIsEmptyUser(false);
+    setIsEmptyTitle(false);
   };
 
   return (
